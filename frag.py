@@ -15,7 +15,11 @@ from mutagen.mp3 import MP3
 # {{{ const settings
 SRC_DIR = Path("noctl/src")
 DST_DIR = Path("noctl/dst")
-SMP_NAME = "11-コブシヲニギレ.mp3"
+SMP_NAME = "11-コブシヲニギレ"
+SMP_JACKET = Path("noctl/BMCR-7046.png")
+SMP_NAME = "01 ロビンソン"
+SMP_JACKET = Path("noctl/POCH-1983.jpg")
+BITRATE = "320k"
 # }}}
 
 
@@ -33,20 +37,20 @@ def enc(src, dst, bitrate=BITRATE, metadata=None):
 # }}}
 
 
-
-
-
-
-# {{{ def main():
-def main():
+# {{{ def wav2mp3():
+def wav2mp3():
     mp3_metadata = {
-        "tags": {"album": "ELEVEN", "artist": "B'z"},
-        "cover": str(JACKET),
+        "tags": {"album": "ロビンソン", "artist": "SPITZ"},
+        "cover": str(SMP_JACKET),
     }
-    src = SRC_DIR / SMP_NAME
-    dst = DST_DIR / SMP_NAME
-    enc(SRC, DST, metadata=mp3_metadata)
+    src = SRC_DIR / f"{SMP_NAME}.wav"
+    dst = DST_DIR / f"{SMP_NAME}.mp3"
+    enc(src, dst, metadata=mp3_metadata)
+# }}}
 
+
+# {{{ def view_info(src):
+def view_info(src):
     audio = MP3(src)
     print("bitrate"         ,audio.info.bitrate)
     print("bitrate_mode"    ,audio.info.bitrate_mode)
@@ -64,6 +68,14 @@ def main():
     print("track_gain"      ,audio.info.track_gain)
     print("track_peak"      ,audio.info.track_peak)
     print("version"         ,audio.info.version)
+# }}}
+
+
+# {{{ def main():
+def main():
+    # wav2mp3()
+    src = DST_DIR / f"{SMP_NAME}.mp3"
+    view_info(src)
     return None
 # }}}
 
